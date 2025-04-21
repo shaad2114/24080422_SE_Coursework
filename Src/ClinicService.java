@@ -32,7 +32,7 @@ public class ClinicService {
         physiotherapists.add(p3);
 
         // Initialize patients
-        patients.add(new Patient(101, "Leonardo DiCaprio", "101 Elm St", "555-1001"));
+        patients.add(new Patient(101, "Leonardo DiCaprion", "101 Elm St", "555-1001"));
 patients.add(new Patient(102, "Priyanka Chopra", "202 Maple Dr", "555-1002"));
 patients.add(new Patient(103, "BTS Jungkook", "303 Cedar Ln", "555-1003"));
 patients.add(new Patient(104, "Gal Gadot", "404 Birch Blvd", "555-1004"));
