@@ -18,7 +18,7 @@ public class ClinicService {
     public List<Physiotherapist> physiotherapists;
     public List<Patient> patients;
     public List<Appointment> appointments;
-    private int nextBookingId;
+    public int nextBookingId;
     private Scanner scanner;
 
     public ClinicService() {
