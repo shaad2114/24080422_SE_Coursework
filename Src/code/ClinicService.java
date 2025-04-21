@@ -1,3 +1,4 @@
+package code;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,12 +13,11 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-
+//importing all libs
 public class ClinicService {
-    private List<Physiotherapist> physiotherapists;
-    private List<Patient> patients;
-    private List<Appointment> appointments;
+    public List<Physiotherapist> physiotherapists;
+    public List<Patient> patients;
+    public List<Appointment> appointments;
     private int nextBookingId;
     private Scanner scanner;
 
@@ -31,11 +31,11 @@ public class ClinicService {
 
     public void initializeSampleData() {
         // Initialize physiotherapists
-        Physiotherapist p1 = new Physiotherapist(1, "Dr. Helen Smith", "123 Main St", "555-0101", 
+        Physiotherapist p1 = new Physiotherapist(1, "Dr. Strange", "123 Main St", "555-0101", 
                 Arrays.asList("Physiotherapy", "Rehabilitation"));
-        Physiotherapist p2 = new Physiotherapist(2, "Dr. John Doe", "456 Oak Ave", "555-0202", 
+        Physiotherapist p2 = new Physiotherapist(2, "Dr. Alpha", "456 Oak Ave", "555-0202", 
                 Arrays.asList("Osteopathy", "Massage"));
-        Physiotherapist p3 = new Physiotherapist(3, "Dr. Sarah Johnson", "789 Pine Rd", "555-0303", 
+        Physiotherapist p3 = new Physiotherapist(3, "Dr. Chris Max", "789 Pine Rd", "555-0303", 
                 Arrays.asList("Physiotherapy", "Pool rehabilitation"));
         
         physiotherapists.add(p1);
@@ -145,7 +145,7 @@ public class ClinicService {
         }
     }
 
-    private void addPatient() {
+    public void addPatient() {
         System.out.println("\n=== Add New Patient ===");
         
         int id;
@@ -174,7 +174,7 @@ public class ClinicService {
         System.out.println("Patient added successfully!");
     }
 
-    private void removePatient() {
+    public void removePatient() {
         System.out.println("\n=== Remove Patient ===");
         if (patients.isEmpty()) {
             System.out.println("No patients registered.");
@@ -205,7 +205,7 @@ public class ClinicService {
         }
     }
 
-    private void bookAppointment() {
+    public void bookAppointment() {
         System.out.println("\n=== Book Treatment Appointment ===");
         if (patients.isEmpty()) {
             System.out.println("No patients registered. Please add a patient first.");
@@ -299,7 +299,7 @@ public class ClinicService {
         System.out.println("Appointment booked successfully! Booking ID: " + booking.getBookingId());
     }
 
-    private void changeOrCancelBooking() {
+    public void changeOrCancelBooking() {
         System.out.println("\n=== Change/Cancel Booking ===");
         if (patients.isEmpty()) {
             System.out.println("No patients registered.");
@@ -402,7 +402,7 @@ public class ClinicService {
         }
     }
 
-    private void attendAppointment() {
+    public void attendAppointment() {
         System.out.println("\n=== Attend Appointment ===");
         if (patients.isEmpty()) {
             System.out.println("No patients registered.");
@@ -445,7 +445,7 @@ public class ClinicService {
         System.out.println("Appointment marked as attended. Thank you!");
     }
 
-    private void printReport() {
+    public void printReport() {
         System.out.println("\n=== Shaad Physio Clinic Report ===");
         System.out.println("=== Treatment Appointments for the Term ===");
         
