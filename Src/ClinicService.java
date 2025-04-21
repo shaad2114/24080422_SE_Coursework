@@ -1,3 +1,4 @@
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 
 public class ClinicService {
     private List<Physiotherapist> physiotherapists;
@@ -87,7 +89,7 @@ public class ClinicService {
         boolean running = true;
         
         while (running) {
-            System.out.println("\n=== Boost Physio Clinic Booking System ===");
+            System.out.println("\n=== Shaad Physio Clinic Booking System ===");
             System.out.println("1. Add/Remove Patient");
             System.out.println("2. Book Treatment Appointment");
             System.out.println("3. Change/Cancel Booking");
@@ -444,7 +446,7 @@ public class ClinicService {
     }
 
     private void printReport() {
-        System.out.println("\n=== Boost Physio Clinic Report ===");
+        System.out.println("\n=== Shaad Physio Clinic Report ===");
         System.out.println("=== Treatment Appointments for the Term ===");
         
         // Group appointments by physiotherapist

@@ -1,3 +1,4 @@
+
 public class Booking {
     private int bookingId;
     private Patient patient;
