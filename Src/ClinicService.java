@@ -1,6 +1,15 @@
 import java.time.LocalDateTime;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ClinicService {
@@ -32,11 +41,11 @@ public class ClinicService {
         physiotherapists.add(p3);
 
         // Initialize patients
-        patients.add(new Patient(101, "Leonardo DiCaprion", "101 Elm St", "555-1001"));
-patients.add(new Patient(102, "Priyanka Chopra", "202 Maple Dr", "555-1002"));
-patients.add(new Patient(103, "BTS Jungkook", "303 Cedar Ln", "555-1003"));
-patients.add(new Patient(104, "Gal Gadot", "404 Birch Blvd", "555-1004"));
-patients.add(new Patient(105, "Cristiano Ronaldo", "505 Spruce Way", "555-1005"));
+        patients.add(new Patient(101, "Leonardo DiCaprio", "101 Elm St", "555-1001"));
+        patients.add(new Patient(102, "Priyanka Chopra", "202 Maple Dr", "555-1002"));
+        patients.add(new Patient(103, "BTS Jungkook", "303 Cedar Ln", "555-1003"));
+        patients.add(new Patient(104, "Gal Gadot", "404 Birch Blvd", "555-1004"));
+        patients.add(new Patient(105, "Cristiano Ronaldo", "505 Spruce Way", "555-1005"));
 
         // Initialize appointments for 4 weeks
         LocalDateTime baseDate = LocalDateTime.now().withHour(9).withMinute(0).withSecond(0).withNano(0);
@@ -45,28 +54,28 @@ patients.add(new Patient(105, "Cristiano Ronaldo", "505 Spruce Way", "555-1005")
         appointments.add(new Appointment("Neural mobilisation", baseDate.plusDays(1).plusHours(1), p1));
         appointments.add(new Appointment("Acupuncture", baseDate.plusDays(1).plusHours(2), p1));
         appointments.add(new Appointment("Massage", baseDate.plusDays(2).plusHours(1), p2));
-        appointments.add(new Appointment("Mobilisation of the spine and joints", baseDate.plusDays(2).plusHours(2), p2));
+        appointments.add(new Appointment("Mobilisation of spine ", baseDate.plusDays(2).plusHours(2), p2));
         appointments.add(new Appointment("Pool rehabilitation", baseDate.plusDays(3).plusHours(1), p3));
         
         // Week 2 appointments
         appointments.add(new Appointment("Neural mobilisation", baseDate.plusDays(8).plusHours(1), p1));
         appointments.add(new Appointment("Acupuncture", baseDate.plusDays(8).plusHours(3), p1));
         appointments.add(new Appointment("Massage", baseDate.plusDays(9).plusHours(1), p2));
-        appointments.add(new Appointment("Mobilisation of the spine and joints", baseDate.plusDays(9).plusHours(2), p2));
+        appointments.add(new Appointment("Mobilisation of spine", baseDate.plusDays(9).plusHours(2), p2));
         appointments.add(new Appointment("Pool rehabilitation", baseDate.plusDays(10).plusHours(1), p3));
         
         // Week 3 appointments
         appointments.add(new Appointment("Neural mobilisation", baseDate.plusDays(15).plusHours(1), p1));
         appointments.add(new Appointment("Acupuncture", baseDate.plusDays(15).plusHours(2), p1));
         appointments.add(new Appointment("Massage", baseDate.plusDays(16).plusHours(1), p2));
-        appointments.add(new Appointment("Mobilisation of the spine and joints", baseDate.plusDays(16).plusHours(2), p2));
+        appointments.add(new Appointment("Mobilisation of spine", baseDate.plusDays(16).plusHours(2), p2));
         appointments.add(new Appointment("Pool rehabilitation", baseDate.plusDays(17).plusHours(1), p3));
         
         // Week 4 appointments
         appointments.add(new Appointment("Neural mobilisation", baseDate.plusDays(22).plusHours(1), p1));
         appointments.add(new Appointment("Acupuncture", baseDate.plusDays(22).plusHours(2), p1));
         appointments.add(new Appointment("Massage", baseDate.plusDays(23).plusHours(1), p2));
-        appointments.add(new Appointment("Mobilisation of the spine and joints", baseDate.plusDays(23).plusHours(2), p2));
+        appointments.add(new Appointment("Mobilisation of spine", baseDate.plusDays(23).plusHours(2), p2));
         appointments.add(new Appointment("Pool rehabilitation", baseDate.plusDays(24).plusHours(1), p3));
         
         // Add some overlapping appointments for testing
@@ -304,13 +313,14 @@ patients.add(new Patient(105, "Cristiano Ronaldo", "505 Spruce Way", "555-1005")
         int patientIndex = getIntInput(1, patients.size()) - 1;
         Patient patient = patients.get(patientIndex);
         
-        // Get patient's bookings
+        // Get patient's bookings (excluding attended)
         List<Appointment> patientBookings = appointments.stream()
             .filter(a -> a.getBooking() != null && a.getBooking().getPatient().equals(patient))
+            .filter(a -> !a.getBooking().getStatus().equals("attended"))
             .collect(Collectors.toList());
         
         if (patientBookings.isEmpty()) {
-            System.out.println("No bookings found for this patient.");
+            System.out.println("No changeable bookings found for this patient.");
             return;
         }
         
@@ -327,6 +337,12 @@ patients.add(new Patient(105, "Cristiano Ronaldo", "505 Spruce Way", "555-1005")
         int bookingIndex = getIntInput(1, patientBookings.size()) - 1;
         Appointment oldAppointment = patientBookings.get(bookingIndex);
         int bookingId = oldAppointment.getBooking().getBookingId();
+        
+        // Prevent modifying attended appointments
+        if (oldAppointment.getBooking().getStatus().equals("attended")) {
+            System.out.println("Cannot modify an already attended appointment.");
+            return;
+        }
         
         System.out.println("\n1. Change booking");
         System.out.println("2. Cancel booking");
@@ -379,7 +395,7 @@ patients.add(new Patient(105, "Cristiano Ronaldo", "505 Spruce Way", "555-1005")
                              " at " + DateTimeUtils.formatDateTime(newAppointment.getDateTime()));
         } else {
             // Cancel booking
-            oldAppointment.setBooking(null);
+            oldAppointment.getBooking().setStatus("cancelled");
             System.out.println("Booking cancelled successfully!");
         }
     }
